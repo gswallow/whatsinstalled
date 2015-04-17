@@ -4,3 +4,6 @@ settings:
 apps:
   web: /var/www/apps/ascent-web/current
 assays: /var/scripts/assays
+packages:
+  - tokumx-clients
+  - tokumx-common

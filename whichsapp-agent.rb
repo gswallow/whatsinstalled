@@ -15,11 +15,15 @@ Daemons.run_proc('whichsapp-agent.rb') do
       %x(test -e #{path} && ( cd #{path} && tag=$(git name-rev --tags --name-only $(git rev-parse HEAD)) ; [ "$tag" = "undefined" ] && git rev-parse --short HEAD || echo $tag ) || echo unknown)
     end
 
+    def dpkg_version(package)
+      %x(dpkg-query -W -f='${Version}' #{package} || echo missing)
+    end
+
     def timestamp(path)
       Time.at(File.stat(path).ctime).strftime('%D %T')
     end
 
-    def all_the_assays(path)
+    def get_assays(path)
       Dir.glob("#{path}/*/current")
     end
 
@@ -28,10 +32,14 @@ Daemons.run_proc('whichsapp-agent.rb') do
       etcd.set("/apps/#{app}/#{ME}/ts", value: "#{timestamp(path)}")
     end
 
-    all_the_assays(config['assays']).each do |assay|
+    get_assays(config['assays']).each do |assay|
       name = File.basename(File.dirname(assay))
       etcd.set("/assays/#{name}/#{ME}/version", value: "#{git_version(assay)}")
       etcd.set("/assays/#{name}/#{ME}/ts", value: "#{timestamp(assay)}")
+    end
+
+    config['packages'].each do |package|
+      etcd.set("/packages/#{package}/#{ME}/version", value: "#{dpkg_version(package)}")
     end
 
     sleep config['settings'].fetch('check_interval', 20)
