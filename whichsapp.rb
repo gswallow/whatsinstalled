@@ -3,10 +3,16 @@
 require 'yaml'
 require 'etcd'
 
-config = YAML.load(File.expand_path('../config.yml', __FILE__))
+config = YAML.load_file(File.expand_path('../config.yml', __FILE__))
+puts config
 etcd = Etcd.client(host: config['settings']['info_server'], port: 4001)
 
-puts etcd.get('/apps')
+etcd.get('/apps').children.each do |app|
+  #versions = Hash.new
+  app.children.each do |server|
+    puts server.inspect
+  end
+end
 
 # require 'sinatra/base'
 # require 'sinatra/config_file'
