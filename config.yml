@@ -1,6 +1,7 @@
 settings:
   info_server: 10.120.18.11
-  check_interval: 15
+  check_interval: 20
+  ttl: 60
 apps:
   web: /var/www/apps/ascent-web/current
 assays: /var/scripts/assays

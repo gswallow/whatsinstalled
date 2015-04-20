@@ -1,0 +1,2 @@
+require './whichsapp'
+run Whichsapp

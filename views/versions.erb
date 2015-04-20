@@ -1,0 +1,58 @@
+<!-- header -->
+<div class="row text-center">
+  <h3>Software Versions</h3>
+</div>
+<div class=row>
+  <div class="col-lg-3">
+    Component
+  </div>
+  <div class="col-lg-3">
+    Specified
+  </div>
+  <div class="col-lg-6">
+    Installed
+  </div>
+</div>
+
+<!-- separator -->
+<div class='row'>
+<div class='span12'>
+  <hr>
+</div>
+</div>
+
+<!-- rows -->
+<%- rows = 0 -%>
+<%- intended_versions.each do |component, version|-%>
+<div class="row" <%= 'style="background-color: #dedef8"' if rows % 2 == 0 %>>
+  <div class="col-lg-3">
+  <%= component %>
+  </div>
+  <div class="col-lg-3">
+  <%= version.is_a?(String) ? version : version.join("\n") %>
+  </div>
+  <div class="col-lg-6">
+  <%- if deployed_versions.has_key?(component) -%>
+    <%- deployed_versions[component].each do |server, installed| -%>
+      <div class="row">
+        <div class="col-md-3">
+        <%= server %>
+        </div>
+        <div class="col-md-3">
+        <%= installed.is_a?(String) ? installed : installed.join("\n") %>
+        </div>
+      </div>
+    <%- end %>
+  <%- else %>
+    unexpected response
+  <%- end %>
+  </div>
+</div>
+  <%- rows += 1 -%>
+<%- end -%>
+
+<div class='row'>
+  <div class='span12'>
+    <hr>
+  </div>
+</div>
