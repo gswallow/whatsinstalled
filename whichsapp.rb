@@ -3,16 +3,35 @@
 require 'yaml'
 require 'etcd'
 
-config = YAML.load_file(File.expand_path('../config.yml', __FILE__))
-puts config
-etcd = Etcd.client(host: config['settings']['info_server'], port: 4001)
+class Whichsapp
+  def initialize
+    @config = YAML.load_file(File.expand_path('../config.yml', __FILE__))
+    @etcd = Etcd.client(host: @config['settings']['info_server'], port: @config['settings'].fetch('port', 4001))
+  end
 
-etcd.get('/apps').children.each do |app|
-  #versions = Hash.new
-  app.children.each do |server|
-    puts server.inspect
+  def dirname(dir)
+    File.basename dir.key
+  end
+
+  def version_of(key)
+    @etcd.get("#{key}/version").value.chomp
+  end
+
+  def ts_of(key)
+    @etcd.get("#{key}/ts").value.chomp
+  end
+
+  def app_versions
+    apps = Hash.new
+    @etcd.get('/apps').children.each do |app|
+      @etcd.get(app.key).children.each do |server|
+        apps["#{dirname(app)}"].concat({ "#{dirname(server)}" => { "version" => version_of(server.key), "ts" => ts_of(server.key) } })
+      end
+    end
   end
 end
+
+puts Whichsapp.new.app_versions.inspect
 
 # require 'sinatra/base'
 # require 'sinatra/config_file'
