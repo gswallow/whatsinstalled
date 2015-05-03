@@ -15,15 +15,15 @@ class WhichsappAgent
 
   def git_version(path)
     if File.exists?(path)
-      rev = %x("cd #{path} && git name-rev --tags --name-only $(git rev-parse HEAD)")
-      %x("cd #{path} && git rev-parse --short HEAD") if rev =~ /undefined/
+      rev = %x(cd #{path} && git name-rev --tags --name-only $(git rev-parse HEAD))
+      %x(cd #{path} && git rev-parse --short HEAD) if rev =~ /undefined/
     else
       "not installed"
     end
   end
 
   def dpkg_version(package)
-    %x("dpkg-query -W -f='${Version}' #{package}")
+    %x(dpkg-query -W -f='${Version}' #{package})
     "not installed" unless $?.success?
   end
 
