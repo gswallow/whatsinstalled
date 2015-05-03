@@ -1,5 +1,6 @@
 settings:
   info_server: 10.120.18.11
+  port: 4001
   check_interval: 20
   ttl: 60
 apps:

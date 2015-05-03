@@ -24,6 +24,7 @@ class Whichsapp
   def app_versions
     apps = Hash.new
     @etcd.get('/apps').children.each do |app|
+      puts app
       @etcd.get(app.key).children.each do |server|
         apps["#{dirname(app)}"].concat({ "#{dirname(server)}" => { "version" => version_of(server.key), "ts" => ts_of(server.key) } })
       end

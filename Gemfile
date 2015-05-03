@@ -1,7 +1,7 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-# gem "rails"
+gem 'rspec'
 gem 'daemons'
 gem 'etcd'
 gem 'sinatra'
