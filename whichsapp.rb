@@ -58,13 +58,13 @@ get '/' do
 end
 
 get '/apps' do
-  erb :grid, :locals => { :hash => Whichsapp.new.get_versions_and_timestamps('/apps').to_json }
+  erb :grid, :locals => { :res => Whichsapp.new.get_versions_and_timestamps('/apps') }
 end
 
 get '/packages' do
-  erb :grid, :locals => { :hash => Whichsapp.new.get_versions('/packages').to_json }
+  erb :grid, :locals => { :res => Whichsapp.new.get_versions('/packages') }
 end
 
 get '/assays' do
-  erb :grid, :locals => { :hash => Whichsapp.new.get_versions_and_timestamps('/assays').to_json }
+  erb :grid, :locals => { :res => Whichsapp.new.get_versions_and_timestamps('/assays') }
 end
