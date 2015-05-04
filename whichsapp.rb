@@ -2,6 +2,7 @@
 
 require 'yaml'
 require 'etcd'
+require 'sinatra'
 
 class Whichsapp
   def initialize
@@ -52,6 +53,18 @@ class Whichsapp
   end
 end
 
-puts Whichsapp.new.get_versions_and_timestamps('/apps')
-puts Whichsapp.new.get_versions('/packages')
-puts Whichsapp.new.get_versions_and_timestamps('/assays')
+get '/' do
+  'this is the index'
+end
+
+get '/apps' do
+  Whichsapp.new.get_versions_and_timestamps('/apps')
+end
+
+get '/packages' do
+  Whichsapp.new.get_versions('/packages')
+end
+
+get '/assays' do
+  Whichsapp.new.get_versions_and_timestamps('/assays')
+end
