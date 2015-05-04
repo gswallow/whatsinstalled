@@ -23,8 +23,9 @@ class WhichsappAgent
   end
 
   def dpkg_version(package)
-    %x(dpkg-query -W -f='${Version}' #{package})
-    "not installed" unless $?.success?
+    version = %x(dpkg-query -W -f='${Version}' #{package})
+    version = "not installed" unless $?.success?
+    version
   end
 
   def timestamp(path)
