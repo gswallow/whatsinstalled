@@ -11,6 +11,7 @@ class Whichsapp
   end
 
   def get_children(key)
+    # TODO handle errors
     @etcd.get(key).children.collect { |c| c.key }
   end
 
