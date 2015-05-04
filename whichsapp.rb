@@ -54,7 +54,7 @@ class Whichsapp
 end
 
 get '/' do
-  erb :index
+  'howdy'
 end
 
 get '/apps' do
