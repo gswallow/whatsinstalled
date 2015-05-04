@@ -54,17 +54,17 @@ class Whichsapp
 end
 
 get '/' do
-  'this is the index'
+  erb :index
 end
 
 get '/apps' do
-  Whichsapp.new.get_versions_and_timestamps('/apps').to_json
+  erb :grid, :locals => { :hash => Whichsapp.new.get_versions_and_timestamps('/apps').to_json }
 end
 
 get '/packages' do
-  Whichsapp.new.get_versions('/packages').to_json
+  erb :grid, :locals => { :hash => Whichsapp.new.get_versions('/packages').to_json }
 end
 
 get '/assays' do
-  Whichsapp.new.get_versions_and_timestamps('/assays').to_json
+  erb :grid, :locals => { :hash => Whichsapp.new.get_versions_and_timestamps('/assays').to_json }
 end
