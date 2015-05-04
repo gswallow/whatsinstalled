@@ -1,2 +1,2 @@
 require './whichsapp'
-run Whichsapp
+#run Whichsapp
