@@ -18,7 +18,32 @@ class Whichsapp
   end
 
   def get_apps
-    self.get_children('/apps')
+    apps = Hash.new
+    self.get_children('/apps').each do |app|
+      self.get_children(app).each do |server|
+        apps[name_of(app)][name_of(server)] = { 'version' => self.get_version(server), 'ts' => self.get_timestamp(server) }
+      end
+    end
+  end
+
+  def get_version(server)
+    self.value_of("#{server}/version") rescue nil
+  end
+
+  def get_timestamp(server)
+    self.value_of("#{server}/timestamp") rescue nil
+  end
+
+  def get_packages
+    self.get_children('/packages')
+  end
+
+  def get_assays
+    self.get_children('/assays')
+  end
+
+  def name_of(key)
+    File.basename(key)
   end
 end
 
