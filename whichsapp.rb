@@ -9,38 +9,20 @@ class Whichsapp
     @etcd = Etcd.client(host: @config['settings']['info_server'], port: @config['settings'].fetch('port', 4001))
   end
 
-  def dirname(dir)
-    File.basename dir.key
-  end
-
-  def version_of(key)
-    @etcd.get("#{key}/version").value.chomp
-  end
-
-  def ts_of(key)
-    @etcd.get("#{key}/ts").value.chomp
-  end
-
-  def app_info
-    apps = Hash.new
-    @etcd.get('/apps').children.each do |app|
-      puts app
-      @etcd.get(app.key).children.each do |server|
-        apps["#{dirname(app)}"].concat({ "#{dirname(server)}" => { "version" => version_of(server.key), "ts" => ts_of(server.key) } })
-      end
-    end
-  end
-
   def get_children(key)
-    @etcd.get(key.key).children
+    @etcd.get(key).children.collect { |c| c.key }
   end
 
   def value_of(key)
     @etcd.get(key).value.chomp
   end
+
+  def get_apps
+    self.get_children('/apps')
+  end
 end
 
-puts Whichsapp.new.app_info.inspect
+puts Whichsapp.new.get_apps
 
 # require 'sinatra/base'
 # require 'sinatra/config_file'

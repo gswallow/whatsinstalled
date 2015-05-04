@@ -49,7 +49,7 @@ class WhichsappAgent
   end
 
   def set_package_version(package)
-    @etcd.set("/packages/#{package}/#{ME}/version", value: "#{dpkg_version(package)}")
+    @etcd.set("/packages/#{package}/#{ME}/version", value: dpkg_version(package))
   end
 end
 
