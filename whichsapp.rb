@@ -60,7 +60,7 @@ class Whichsapp
   end
 end
 
-puts Whichsapp.new.get_apps
+puts Whichsapp.new.get_versions_and_timestamps('/apps')
 
 # require 'sinatra/base'
 # require 'sinatra/config_file'
