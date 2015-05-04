@@ -1,2 +1,2 @@
-require_relative 'whichsapp'
+require './whichsapp'
 run Sinatra::Application
