@@ -16,7 +16,7 @@ class WhichsappAgent
   def git_version(path)
     if File.exists?(path)
       rev = %x(cd #{path} && git name-rev --tags --name-only $(git rev-parse HEAD))
-      %x(cd #{path} && git rev-parse --short HEAD) if rev =~ /undefined/
+      rev =~ /undefined/ ? %x(cd #{path} && git rev-parse --short HEAD) : rev
     else
       "not installed"
     end
@@ -32,29 +32,24 @@ class WhichsappAgent
   end
 
   def set_app_version(app, path)
-    @etcd.set("/apps/#{app}/#{ME}/version", value: "#{git_version(path)}")
+    @etcd.set("/apps/#{app}/#{ME}/version", value: git_version(path))
   end
 
   def set_app_ts(app, path)
-    etcd.set("/apps/#{app}/#{ME}/ts", value: "#{timestamp(path)}")
+    @etcd.set("/apps/#{app}/#{ME}/ts", value: timestamp(path))
   end
 
-  def set_assay_version(app, path)
-    @etcd.set("/assays/#{app}/#{ME}/version", value: "#{git_version(path)}")
+  def set_assay_version(assay, path)
+    @etcd.set("/assays/#{assay}/#{ME}/version", value: git_version(path))
   end
 
-  def set_assay_ts(app, path)
-    etcd.set("/assays/#{app}/#{ME}/ts", value: "#{timestamp(path)}")
+  def set_assay_ts(assay, path)
+    @etcd.set("/assays/#{assay}/#{ME}/ts", value: timestamp(path))
   end
 
   def set_package_version(package)
-    etcd.set("/packages/#{package}/#{ME}/version", value: "#{dpkg_version(package)}")
+    @etcd.set("/packages/#{package}/#{ME}/version", value: "#{dpkg_version(package)}")
   end
-
-  def get_assays(path)
-    Dir.glob("#{path}/*/current")
-  end
-
 end
 
 Daemons.run_proc('whichsapp_agent.rb') do
@@ -74,6 +69,7 @@ Daemons.run_proc('whichsapp_agent.rb') do
       end
 
       config['packages'].each do |package|
+        puts package
         agent.set_package_version(package)
       end
     rescue

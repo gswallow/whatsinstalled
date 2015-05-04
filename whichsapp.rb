@@ -21,7 +21,7 @@ class Whichsapp
     @etcd.get("#{key}/ts").value.chomp
   end
 
-  def app_versions
+  def app_info
     apps = Hash.new
     @etcd.get('/apps').children.each do |app|
       puts app
@@ -30,9 +30,17 @@ class Whichsapp
       end
     end
   end
+
+  def get_children(key)
+    @etcd.get(key.key).children
+  end
+
+  def value_of(key)
+    @etcd.get(key).value.chomp
+  end
 end
 
-puts Whichsapp.new.app_versions.inspect
+puts Whichsapp.new.app_info.inspect
 
 # require 'sinatra/base'
 # require 'sinatra/config_file'
