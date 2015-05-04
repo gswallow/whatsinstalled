@@ -54,7 +54,7 @@ class Whichsapp
 end
 
 get '/' do
-  'howdy'
+  erb 'howdy'
 end
 
 get '/apps' do
