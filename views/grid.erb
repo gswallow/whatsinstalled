@@ -1,4 +1,4 @@
-<%- res.each do |app, servers| -%>
+<% res.each do |app, servers| %>
 <!-- header -->
 <div class="row text-center">
   <h3><%= app -%></h3>
@@ -7,10 +7,10 @@
 <!-- rows -->
 <div class="row">
   <%- servers.each do |server| -%>
-  <div class="col-xs-6 col-sm-4 col-md-3" <%- if server.has_key?('timestamp') -%> rel="tooltip" title="<%= server['timestamp'] -%>" <%- end -%>>
+  <div class="col-xs-6 col-sm-4 col-md-3" <% if server.has_key?('timestamp') -%> rel="tooltip" title="<%= server['timestamp'] -%>" <% end -%>>
   <%= server -%> <%= server['version'] %>
   </div>
-  <%- end -%>
+  <% end %>
 </div>
 
 <div class='row'>
@@ -18,4 +18,4 @@
     <hr>
   </div>
 </div>
-<% end -%>
+<% end %>
