@@ -17,13 +17,26 @@ class Whichsapp
     @etcd.get(key).value.chomp
   end
 
-  def get_apps
-    apps = Hash.new
-    self.get_children('/apps').each do |app|
+  def get_versions_and_timestamps(key)
+    res = Hash.new
+    self.get_children(key).each do |app|
+      res[name_of(app)] = Hash.new
       self.get_children(app).each do |server|
-        apps[name_of(app)][name_of(server)] = { 'version' => self.get_version(server), 'ts' => self.get_timestamp(server) }
+        res[name_of(app)][name_of(server)] = { 'version' => self.get_version(server), 'ts' => self.get_timestamp(server) }
       end
     end
+    res
+  end
+
+  def get_versions(key)
+    res = Hash.new
+    self.get_children(key).each do |app|
+      res[name_of(app)] = Hash.new
+      self.get_children(app).each do |server|
+        res[name_of(app)][name_of(server)] = { 'version' => self.get_version(server) }
+      end
+    end
+    res
   end
 
   def get_version(server)
