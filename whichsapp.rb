@@ -54,3 +54,4 @@ end
 
 puts Whichsapp.new.get_versions_and_timestamps('/apps')
 puts Whichsapp.new.get_versions('/packages')
+puts Whichsapp.new.get_versions_and_timestamps('/assays')
