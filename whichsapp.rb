@@ -22,7 +22,7 @@ class Whichsapp
     self.get_children(key).each do |app|
       res[name_of(app)] = Hash.new
       self.get_children(app).each do |server|
-        res[name_of(app)][name_of(server)] = { 'version' => self.get_version(server), 'ts' => self.get_timestamp(server) }
+        res[name_of(app)][name_of(server)] = { 'version' => self.get_version(server), 'timestamp' => self.get_timestamp(server) }
       end
     end
     res

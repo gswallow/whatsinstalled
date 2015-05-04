@@ -10,6 +10,7 @@ ME=`hostname -s`.chomp
 class WhichsappAgent
   def initialize(config)
     @config = config
+    @ttl = config['settings'].fetch('ttl', 60)
     @etcd = Etcd.client(host: @config['settings']['info_server'], port: @config['settings'].fetch('port', 4001))
   end
 
@@ -33,23 +34,23 @@ class WhichsappAgent
   end
 
   def set_app_version(app, path)
-    @etcd.set("/apps/#{app}/#{ME}/version", value: git_version(path))
+    @etcd.set("/apps/#{app}/#{ME}/version", value: git_version(path), ttl: @ttl)
   end
 
-  def set_app_ts(app, path)
-    @etcd.set("/apps/#{app}/#{ME}/ts", value: timestamp(path))
+  def set_app_timestamp(app, path)
+    @etcd.set("/apps/#{app}/#{ME}/timestamp", value: timestamp(path), ttl: @ttl)
   end
 
   def set_assay_version(assay, path)
-    @etcd.set("/assays/#{assay}/#{ME}/version", value: git_version(path))
+    @etcd.set("/assays/#{assay}/#{ME}/version", value: git_version(path), ttl: @ttl)
   end
 
-  def set_assay_ts(assay, path)
-    @etcd.set("/assays/#{assay}/#{ME}/ts", value: timestamp(path))
+  def set_assay_timestamp(assay, path)
+    @etcd.set("/assays/#{assay}/#{ME}/timestamp", value: timestamp(path), ttl: @ttl)
   end
 
   def set_package_version(package)
-    @etcd.set("/packages/#{package}/#{ME}/version", value: dpkg_version(package))
+    @etcd.set("/packages/#{package}/#{ME}/version", value: dpkg_version(package), ttl: @ttl)
   end
 end
 
@@ -60,17 +61,16 @@ Daemons.run_proc('whichsapp_agent.rb') do
 
       config['apps'].each do |app, path|
         agent.set_app_version(app, path)
-        agent.set_app_ts(app, path)
+        agent.set_app_timestamp(app, path)
       end
 
       Dir.glob("#{config['assays']}/*/current").each do |path|
         assay = File.basename(File.dirname(path))
         agent.set_assay_version(assay, path)
-        agent.set_assay_ts(assay, path)
+        agent.set_assay_timestamp(assay, path)
       end
 
       config['packages'].each do |package|
-        puts package
         agent.set_package_version(package)
       end
     rescue
