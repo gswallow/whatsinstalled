@@ -1,6 +1,6 @@
 <% res.each do |app, servers| %>
 <!-- header -->
-<div class="row text-center">
+<div class="row">
   <h3><%= app %></h3>
 </div>
 
@@ -8,7 +8,7 @@
 <div class="row">
   <% servers.each do |server, info| %>
   <div class="col-xs-6 col-sm-4 col-md-3" <% if info.has_key?('timestamp') %> rel="tooltip" title="<%= info['timestamp'] %>" <% end %>>
-  <%= server %> <%= info['version'] %>
+  <%= server %> <font color="red"><%= info['version'] %></font>
   </div>
   <% end %>
 </div>
