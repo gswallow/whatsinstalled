@@ -6,7 +6,7 @@
 
 <!-- rows -->
 <div class="row">
-  <% servers.each do |server, info| %>
+  <% servers.sort.each do |server, info| %>
   <div class="col-xs-6 col-sm-4 col-md-3" <% if info.has_key?('timestamp') %> rel="tooltip" title="<%= info['timestamp'] %>" <% end %>>
   <%= server %> <font color="red"><%= info['version'] %></font>
   </div>
