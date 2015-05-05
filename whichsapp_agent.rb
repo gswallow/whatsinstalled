@@ -59,9 +59,11 @@ Daemons.run_proc('whichsapp_agent.rb') do
     begin
       agent = WhichsappAgent.new(config)
 
-      config['apps'].each do |app, path|
-        agent.set_app_version(app, path)
-        agent.set_app_timestamp(app, path)
+      if config.has_key?('apps') and !config['apps'].empty?
+        config['apps'].each do |app, path|
+          agent.set_app_version(app, path)
+          agent.set_app_timestamp(app, path)
+        end
       end
 
       Dir.glob("#{config['assays']}/*/current").each do |path|
