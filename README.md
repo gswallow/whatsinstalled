@@ -33,7 +33,7 @@ are four sections:
 For simplicity's sake, I install the Sinatra components on the same box where etcd is installed.  The agent gets installed on all of
 the servers that I want to monitor.  See the whichsapp Chef cookbook at https://github.com/gswallow/whichsapp-chef.
 
-To configure the agent, pass in some attributes:
+To configure the agent, pass in some attributes (probably through the node's role):
 
 ...
 default_attributes(
