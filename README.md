@@ -7,10 +7,10 @@ checkout, symlinked to a "current" directory.  It can also report the version of
 ## Philosophy (Requirements)
 
 While it's one thing to say "we're going to deploy version 1.2.3 of the web app," it's quite another thing to actually do it.
-One of the most annoying things that can happen in distributed environments is chasing down "which server was left out of the
+One of the most annoying (and common!) things that can happen in distributed environments is chasing down "which server was left out of the
 deploy -- e.g. four web servers were bumped up to version 1.2.3, while a fifth failed or simply wasn't run.  These partial
 updates lead to reports of "feature X works 50% of the time, and doesn't work the other 50%.  Can you check that all of the
-servers are up to date?
+servers are up to date?"
 
 Whichsapp solves this problem by scanning the server's application root very often -- more than once per minute.  Its default
 check frequency is once every 20 seconds (a la collectd).  Because the commands to check the application's version are very light
