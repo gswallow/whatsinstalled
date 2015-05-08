@@ -35,7 +35,7 @@ the servers that I want to monitor.  See the whichsapp Chef cookbook at https://
 
 To configure the agent, pass in some attributes (probably through the node's role):
 
-...
+```
 default_attributes(
   'whichsapp' => {
     'apps' => {
@@ -52,4 +52,4 @@ default_attributes(
     ]
   }
 )
-...
+```
