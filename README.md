@@ -4,7 +4,7 @@ A play on the super-popular "Whatsapp," whichsapp checks which version of an app
 It is meant to be used with applications deployed using capistrano or Chef, where deployment is essentially a git 
 checkout, symlinked to a "current" directory.  It can also report the version of installed Debian packages on a system.
 
-## Philosophy
+## Philosophy (Requirements)
 
 While it's one thing to say "we're going to deploy version 1.2.3 of the web app," it's quite another thing to actually do it.
 One of the most annoying things that can happen in distributed environments is chasing down "which server was left out of the
@@ -53,3 +53,7 @@ default_attributes(
   }
 )
 ```
+
+## TODO
+
+There is no way to determine which version of a Windows package is installed (nor do I know if the etcd gem works on Windows?)
