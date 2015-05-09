@@ -71,4 +71,5 @@ network location.
 
 ## TODO
 
-Extend the agent to Microsoft Windows.
+- Write tests!
+- Extend the agent to Microsoft Windows.
