@@ -56,4 +56,4 @@ default_attributes(
 
 ## TODO
 
-There is no way to determine which version of a Windows package is installed (nor do I know if the etcd gem works on Windows?)
+Extend the agent to Microsoft Windows.
