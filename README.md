@@ -24,8 +24,8 @@ little overhead on the monitored server.
 
 Storing app versions in a memory-backed key/value store speeds up reads.  Whichsapp sets a low TTL on each key that it advertises,
 meaning a server that has stopped reporting its apps' versions becomes immediately obvious in the web UI.  Data is either very fresh, or
-missing.  Finally, because there's a key/value store between monitored servers and the web UI, we don't need to worry about using SSH 
-keys to allow remote logins to grab software versions in real time.
+missing (which is actually desired).  Finally, because there's a key/value store between monitored servers and the web UI, we don't 
+need to worry about using SSH keys to allow remote logins to grab software versions in real time.
 
 ## Components
 
