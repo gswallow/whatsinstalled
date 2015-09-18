@@ -11,8 +11,10 @@ class Whichsapp
   end
 
   def get_children(key)
-    # TODO handle errors
-    @etcd.get(key).children.collect { |c| c.key }
+    parent = @etcd.get(key) rescue nil
+    if parent.is_a?(Etcd::Response)
+      parent.children.collect { |c| c.key }
+    end
   end
 
   def value_of(key)
