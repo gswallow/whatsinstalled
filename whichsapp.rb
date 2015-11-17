@@ -14,7 +14,7 @@ class Whichsapp
     parent = @etcd.get(key) rescue nil
     if parent.is_a?(Etcd::Response)
       children = parent.children
-      @etcd.delete(parent, recursive: true) if children.empty?
+      @etcd.delete(parent.key, recursive: true) if children.empty?
       children.collect { |c| c.key }
     end
   end
@@ -25,7 +25,7 @@ class Whichsapp
 
   def value_of(key)
     res = @etcd.get(key)
-    @etcd.delete(key) if res.value.empty?
+    @etcd.delete(key.key) if res.value.empty?
     res.value.chomp
   end
 
