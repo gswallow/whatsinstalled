@@ -14,7 +14,7 @@ class Whichsapp
     parent = @etcd.get(key) rescue nil
     if parent.is_a?(Etcd::Response)
       children = parent.children
-      @etcd.delete(parent.key, recursive: true) if children.empty?
+      @etcd.delete(key, recursive: true) if children.empty?
       children.collect { |c| c.key }
     end
   end
@@ -25,12 +25,8 @@ class Whichsapp
 
   def value_of(key)
     res = @etcd.get(key)
-    @etcd.delete(key.key) if res.value.empty?
+    @etcd.delete(key) if res.value.empty?
     res.value.chomp
-  end
-
-  def delete(key)
-    @etcd.delete(key, recursive: true)
   end
 
   def get_versions_and_timestamps(key)
@@ -56,11 +52,15 @@ class Whichsapp
   end
 
   def get_version(server)
-    self.value_of("#{server}/version") rescue nil
+    version = self.value_of("#{server}/version") rescue nil
+    @etcd.delete(server, recursive: true) if version.nil?
+    version
   end
 
   def get_timestamp(server)
-    self.value_of("#{server}/timestamp") rescue nil
+    timestamp = self.value_of("#{server}/timestamp") rescue nil
+    @etcd.delete(server, recursive: true) if timestamp.nil?
+    timestamp
   end
 end
 
