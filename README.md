@@ -1,6 +1,6 @@
-# whichsapp
+# whatsinstalled
 
-A terrible play on the super-popular "Whatsapp," whichsapp checks which version of an application is installed on your servers.
+Checks which version of an application is installed on your servers.
 It is meant to be used with applications deployed using capistrano or Chef, where deployment is essentially a git 
 checkout, symlinked to a "current" directory.  It can also report the version of installed Debian packages on a system.
 
@@ -42,13 +42,13 @@ are four sections:
 ## Installation
 
 For simplicity's sake, I install the Sinatra components on the same box where etcd is installed.  The agent gets installed on all of
-the servers that I want to monitor.  See the whichsapp Chef cookbook at https://github.com/gswallow/whichsapp-chef.
+the servers that I want to monitor.  See the whatsinstalled Chef cookbook at https://github.com/gswallow/whatsinstalled-chef.
 
 To configure the agent, pass in some attributes (probably through the node's role):
 
 ```
 default_attributes(
-  'whichsapp' => {
+  'whatsinstalled' => {
     'apps' => {
       'web' => '/var/www/apps/ascent-web/current',
       'compute_runner' => '/var/scripts/compute-runner/current'
@@ -72,4 +72,5 @@ network location.
 ## TODO
 
 - Write tests!
+- Determine what "type" of server an instance is.  Maybe read /etc/chef/first-run.json or something.
 - Extend the agent to Microsoft Windows.

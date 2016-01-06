@@ -4,7 +4,7 @@ require 'yaml'
 require 'etcd'
 require 'sinatra'
 
-class Whichsapp
+class Whatsinstalled
   def initialize
     @config = YAML.load_file(File.expand_path('../config.yml', __FILE__))
     @etcd = Etcd.client(host: @config['settings']['info_server'], port: @config['settings'].fetch('port', 4001))
@@ -75,18 +75,18 @@ get '/' do
 end
 
 get '/apps' do
-  erb :grid, :locals => { :res => Whichsapp.new.get_versions_and_timestamps('/apps') }
+  erb :grid, :locals => { :res => Whatsinstalled.new.get_versions_and_timestamps('/apps') }
 end
 
 get '/packages' do
-  erb :grid, :locals => { :res => Whichsapp.new.get_versions('/packages') }
+  erb :grid, :locals => { :res => Whatsinstalled.new.get_versions('/packages') }
 end
 
 get '/assays' do
-  erb :grid, :locals => { :res => Whichsapp.new.get_versions_and_timestamps('/assays') }
+  erb :grid, :locals => { :res => Whatsinstalled.new.get_versions_and_timestamps('/assays') }
 end
 
 get '/zap' do
-  Whichsapp.new.zap
+  Whatsinstalled.new.zap
   erb 'Done.'
 end

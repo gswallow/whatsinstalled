@@ -7,7 +7,7 @@ require 'etcd'
 config = YAML.load_file(File.expand_path('../config.yml', __FILE__))
 ME=`hostname -s`.chomp
 
-class WhichsappAgent
+class WhatsinstalledAgent
   def initialize(config)
     @config = config
     @ttl = config['settings'].fetch('ttl', 60)
@@ -54,10 +54,10 @@ class WhichsappAgent
   end
 end
 
-Daemons.run_proc('whichsapp_agent.rb') do
+Daemons.run_proc('whatsinstalled_agent.rb') do
   loop do
     begin
-      agent = WhichsappAgent.new(config)
+      agent = WhatsinstalledAgent.new(config)
 
       if config.has_key?('apps') and !config['apps'].empty?
         config['apps'].each do |app, path|

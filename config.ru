@@ -1,2 +1,2 @@
-require File.expand_path('../whichsapp.rb', __FILE__)
+require File.expand_path('../whatsinstalled.rb', __FILE__)
 run Sinatra::Application
