@@ -62,6 +62,12 @@ class Whichsapp
     @etcd.delete(server, recursive: true) if timestamp.nil?
     timestamp
   end
+
+  def zap
+    @etcd.get('/').children.collect do |child|
+      @etcd.delete(child.key, recursive: true)
+    end
+  end
 end
 
 get '/' do
@@ -78,4 +84,9 @@ end
 
 get '/assays' do
   erb :grid, :locals => { :res => Whichsapp.new.get_versions_and_timestamps('/assays') }
+end
+
+get '/zap' do
+  Whichsapp.new.zap
+  erb 'Done.'
 end
