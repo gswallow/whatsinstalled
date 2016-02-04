@@ -25,7 +25,7 @@ class Whatsinstalled
 
   def value_of(key)
     res = @etcd.get(key)
-    @etcd.delete(key) if res.value.empty?
+    @etcd.delete(key, recursive: true) if res.value.empty?
     res.value.chomp
   end
 
@@ -52,15 +52,11 @@ class Whatsinstalled
   end
 
   def get_version(server)
-    version = self.value_of("#{server}/version") rescue nil
-    @etcd.delete(server, recursive: true) if version.nil?
-    version
+    self.value_of("#{server}/version") rescue nil
   end
 
   def get_timestamp(server)
-    timestamp = self.value_of("#{server}/timestamp") rescue nil
-    @etcd.delete(server, recursive: true) if timestamp.nil?
-    timestamp
+    self.value_of("#{server}/timestamp") rescue nil
   end
 
   def zap
